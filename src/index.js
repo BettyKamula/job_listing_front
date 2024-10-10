@@ -1,13 +1,43 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Home from './pages/home';
+import Login from './pages/login';
+import Signup from './pages/signup';
+import CustomerSignupForm from './components/customer-signup';
+import EmployerSignupForm from './components/employer';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Home />,
+  },
+  {
+    path: '/signup',
+    element: <Signup />,
+    children: [
+      {
+        path: 'customer',
+        element: <CustomerSignupForm />, // Signup form for customers
+      },
+      {
+        path: 'employer',
+        element: <EmployerSignupForm />, // Signup form for Employers
+      },
+    ],
+  },
+  {
+    path: '/login',
+    element: <Login />,
+  },
+]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 
