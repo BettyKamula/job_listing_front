@@ -1,15 +1,22 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Register_user } from '../helper/helper';
 
 const EmployerSignupForm = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState({
     firstName: '',
     lastName: '',
-    workEmail: '',
-    createPassword: '',
-    companyName: '',
+    email: '',
+    password: '',
+    role: 'admin',
   });
-  const registerEmployer = (e) => {
+  const registerEmployer = async (e) => {
     e.preventDefault();
+    await Register_user(data, navigate);
+  };
+  const handleOnChange = (event, field) => {
+    setData({ ...data, [field]: event.target.value });
   };
   return (
     <form onSubmit={registerEmployer}>
@@ -17,28 +24,26 @@ const EmployerSignupForm = () => {
       <input
         type='text'
         value={data.firstName}
-        onChange={(e) => setData({ ...data, firstName: e.target.value })}
+        onChange={(event) => handleOnChange(event, 'firstName')}
       />
       <label>Last Name</label>
       <input
         type='text'
         value={data.lastName}
-        onChange={(e) => setData({ ...data, lastName: e.target.value })}
+        onChange={(event) => handleOnChange(event, 'lastName')}
       />
-      <label> Work Email</label>
+      <label> Email</label>
       <input
         type='text'
-        value={data.workEmail}
-        onChange={(e) => setData({ ...data, workEmail: e.target.value })}
+        value={data.email}
+        onChange={(event) => handleOnChange(event, 'email')}
       />
       <label> Create Password</label>
       <input
         type='text'
-        value={data.createPassword}
-        onChange={(e) => setData({ ...data, createPassword: e.target.value })}
+        value={data.password}
+        onChange={(event) => handleOnChange(event, 'password')}
       />
-      <label> Company Name</label>
-      <input type='text' />
       <button type='submit'>Submit</button>
     </form>
   );
